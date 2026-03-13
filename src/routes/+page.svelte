@@ -1,6 +1,7 @@
 <script lang="ts">
   import Card from "$lib/components/ui/card/card.svelte";
   import * as Tabs from "$lib/components/ui/tabs/index.js";
+  import { Checkbox } from "$lib/components/ui/checkbox/index.js";
   import LightSwitch from "$lib/components/ui/light-switch/light-switch.svelte";
 
   import maplibregl from "maplibre-gl";
@@ -498,10 +499,15 @@
   >
     <ul class="text-[13px] font-[600] text-gray-700 dark:text-gray-300">
       <li>
+        <Checkbox bind:checked={showLocaties} class="inline"></Checkbox>
         <span style:color="green">--</span> Stadsdelen
       </li>
-      <li><span style:color="red">●</span> Scholen</li>
       <li>
+        <Checkbox bind:checked={showLocaties} class="inline"></Checkbox>
+        <span style:color="red">●</span> Scholen
+      </li>
+      <li>
+        <Checkbox bind:checked={showLocaties} class="inline"></Checkbox>
         <span style:color="blue">●</span> Bibliotheken
       </li>
     </ul>
@@ -536,9 +542,7 @@
     </h2>
     <Tabs.Root value="observaties" class="">
       <Tabs.List>
-        <Tabs.Trigger value="observaties"
-          >Talen ({obs.length} observaties)</Tabs.Trigger
-        >
+        <Tabs.Trigger value="observaties">Talen</Tabs.Trigger>
         <Tabs.Trigger value="locaties">Locaties</Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="locaties" class="m-0">
@@ -553,6 +557,8 @@
         </ul>
       </Tabs.Content>
       <Tabs.Content value="observaties">
+        Onder de <b>{obs.length}</b> ondervraagden in <i>{naam}</i> worden de
+        volgende talen gesproken:
         <TaalOverzicht observations={obs} {locale} />
       </Tabs.Content>
     </Tabs.Root>

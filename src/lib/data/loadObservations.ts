@@ -57,11 +57,6 @@ function makeDisplayName(code: string, locale: string) {
     }
 }
 
-/**
- * Leest de Excel en maakt observaties:
- * - Elke respondent = 1 observationId
- * - Elke taal van die respondent = 1 observation
- */
 export async function loadObservations(locale: "nl" | "en" = "nl") {
     const [spreadsheetRes, isoCodesRes] = await Promise.all([
         fetch(SPREADSHEET_URL),
