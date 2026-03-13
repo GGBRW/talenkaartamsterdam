@@ -14,9 +14,9 @@
   import * as XLSX from "xlsx";
   import { ModeWatcher } from "mode-watcher";
 
-  import DarkModeToggle from "$lib/DarkModeToggle.svelte";
   import LanguageToggle from "../../lib/LanguageToggle.svelte";
   import Stadsdelen from "$lib/Stadsdelen.svelte";
+  import LightSwitch from "$lib/components/ui/light-switch/light-switch.svelte";
 
   const SPREADSHEET_URL = "./Multilingual_Amsterdam_voorGees.xlsx";
   const POSTCODES_URL = "./pc4geoloc.json";
@@ -283,7 +283,7 @@
       onclick={() => (locale = locale === "nl" ? "en" : "nl")}
       content={locale === "nl" ? "🇳🇱 " : "🇬🇧 "}
     />
-    <DarkModeToggle class="z-50" />
+    <LightSwitch />
   </div>
 </header>
 
