@@ -9,7 +9,6 @@
 
   import LanguageToggle from "$lib/LanguageToggle.svelte";
   import { ModeWatcher, mode } from "mode-watcher";
-  import TaalOverzicht from "./TaalOverzicht.svelte";
 
   let mapContainer: HTMLDivElement | undefined = $state();
   let map: maplibregl.Map | undefined;
