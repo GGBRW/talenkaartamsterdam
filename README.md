@@ -25,4 +25,4 @@ De applicatie laadt automatisch de nieuwe data zodra de wijzigingen zijn opgesla
 
 ---
 
-*Heb je vragen of lukt het niet? Neem contact op met de beheerder van deze applicatie.*
+*Heb je vragen of lukt het niet? Neem contact op met: contact@degeomaten.nl.*
