@@ -7,5 +7,8 @@
   export const prerender = true;
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+  <title>Talenkaart Amsterdam</title>
+  <link rel="icon" href={favicon} />
+</svelte:head>
 {@render children()}
