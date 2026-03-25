@@ -799,65 +799,68 @@
           {/if}
         </div>
 
-        {#if Object.values(languageSelected).includes(true)}
-          {@const langsSelected = Object.keys(languageSelected).filter(
-            (k) => languageSelected[k] === true,
-          )}
-          {@const langNames = langsSelected.map(
-            (code) =>
-              languageNames[code][locale === "nl" ? "nameNL" : "nameEN"],
-          )}
-          {@const langCombination = filteredRes.filter((r) =>
-            langsSelected.every((code) =>
-              r.languages.some(
-                (l) =>
-                  l.code === code &&
-                  (!languageFilters.homeLanguage || l.homeLanguage) &&
-                  (!languageFilters.proficient || l.proficient),
+        <div class="">
+          {#if Object.values(languageSelected).includes(true)}
+            {@const langsSelected = Object.keys(languageSelected).filter(
+              (k) => languageSelected[k] === true,
+            )}
+            {@const langNames = langsSelected.map(
+              (code) =>
+                languageNames[code][locale === "nl" ? "nameNL" : "nameEN"],
+            )}
+            {@const langCombination = filteredRes.filter((r) =>
+              langsSelected.every((code) =>
+                r.languages.some(
+                  (l) =>
+                    l.code === code &&
+                    (!languageFilters.homeLanguage || l.homeLanguage) &&
+                    (!languageFilters.proficient || l.proficient),
+                ),
               ),
-            ),
-          )}
-          <div class="bg-gray-500/10 p-2 rounded-lg">
-            <X
-              onclick={() =>
-                Object.keys(languageSelected).forEach(
-                  (k) => (languageSelected[k] = false),
-                )}
-              class="inline size-4 opacity-50 cursor-pointer mr-1"
-            ></X>
-            {#if !langCombination.length}
-              {locale == "nl" ? `Geen van de ` : `None of the `}
-            {:else}
-              <span class="underline">{langCombination.length}</span>
-              {locale == "nl" ? `van de` : `of the`}
-            {/if}
-            {locale == "nl" ? `ondervraagden ` : `respondents `}
-            {#if langCombination.length}
-              (<b class="text-sm"
-                >{((langCombination.length / filteredRes.length) * 100).toFixed(
-                  1,
-                )}%</b
-              >)
-            {/if}
-            {locale == "nl" ? `spreken` : `speak`}
-            {#if langNames.length > 1}
-              {@html langNames.slice(0, -1).join(", ") +
-                (locale == "nl" ? " <b>en</b> " : " <b>and</b> ") +
-                langNames.slice(-1)[0]}
-            {:else}
-              {langNames[0]}
-            {/if}
-          </div>
-        {:else}
-          <div
-            class="bg-gray-500/10 p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg"
-          >
-            {locale == "nl"
-              ? `Selecteer één of meerdere van de onderstaande talen om te zien hoeveel ondervraagden
-            deze combinatie spreken.`
-              : `Select one or more languages below to see how many of the respondents speak this combination of languages.`}
-          </div>
-        {/if}
+            )}
+            <div class="bg-gray-500/10 p-2 rounded-lg">
+              <X
+                onclick={() =>
+                  Object.keys(languageSelected).forEach(
+                    (k) => (languageSelected[k] = false),
+                  )}
+                class="inline size-4 opacity-50 cursor-pointer mr-1"
+              ></X>
+              {#if !langCombination.length}
+                {locale == "nl" ? `Geen van de ` : `None of the `}
+              {:else}
+                <span class="underline">{langCombination.length}</span>
+                {locale == "nl" ? `van de` : `of the`}
+              {/if}
+              {locale == "nl" ? `ondervraagden ` : `respondents `}
+              {#if langCombination.length}
+                (<b class="text-sm"
+                  >{(
+                    (langCombination.length / filteredRes.length) *
+                    100
+                  ).toFixed(1)}%</b
+                >)
+              {/if}
+              {locale == "nl" ? `spreken` : `speak`}
+              {#if langNames.length > 1}
+                {@html langNames.slice(0, -1).join(", ") +
+                  (locale == "nl" ? " <b>en</b> " : " <b>and</b> ") +
+                  langNames.slice(-1)[0]}
+              {:else}
+                {langNames[0]}
+              {/if}
+            </div>
+          {:else}
+            <div
+              class="bg-gray-500/10 p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg"
+            >
+              {locale == "nl"
+                ? `Selecteer één of meerdere van de onderstaande talen om te zien hoeveel ondervraagden
+              deze combinatie spreken.`
+                : `Select one or more languages below to see how many of the respondents speak this combination of languages.`}
+            </div>
+          {/if}
+        </div>
         <ul>
           {#each Object.entries(languageOccurences)
             .filter(([, o]) => (!languageFilters.homeLanguage || o.homeLanguage > 0) && (!languageFilters.proficient || o.proficient > 0))
