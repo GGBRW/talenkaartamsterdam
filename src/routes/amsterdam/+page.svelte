@@ -647,7 +647,7 @@
 <ModeWatcher />
 
 <header
-  class="flex items-center justify-between h-16 px-4 sm:px-6 pt-8 pb-8 border-b border-gray-300 dark:border-gray-700 overflow-visible"
+  class="flex items-center justify-between h-16 px-4 sm:px-6 pt-8 pb-8 border-b border-gray-300 dark:border-gray-700 bg-card overflow-visible"
 >
   <div class="flex items-center">
     <img
@@ -691,20 +691,20 @@
       class="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 bg-white dark:bg-gray-800 p-2 rounded-[8px] sm:rounded-[6px] shadow-md"
     >
       <ul class="text-[13px] font-[600] text-gray-700 dark:text-gray-300">
-        <li class="p-0.5">
+        <li class="flex items-center gap-2 p-0.5">
           <Checkbox bind:checked={showStadsdelen} class="inline mr-2"
           ></Checkbox>
           <span style:color="#44ff44">-</span>
           {locale === "nl" ? `Stadsdelen` : `Districts`}
           ({stadsdelen.length})
         </li>
-        <li class="p-0.5">
+        <li class="flex items-center gap-2 p-0.5">
           <Checkbox bind:checked={showScholen} class="inline mr-2"></Checkbox>
           <span style:color="#ff4444">●</span>
           {locale === "nl" ? `Scholen` : `Schools`}
           ({locaties.filter((l) => l.type === "school").length})
         </li>
-        <li class="p-0.5">
+        <li class="flex items-center gap-2 p-0.5">
           <Checkbox bind:checked={showBibliotheken} class="inline mr-2"
           ></Checkbox>
           <span style:color="#4444ff">●</span>
@@ -769,7 +769,7 @@
             ${selectedLocatieId ? `at the location <span class="underline">${selectedLocatie.naam}</span>` : ``},
           the following languages are spoken`}
           <ul>
-            <li class="p-1">
+            <li class="flex items-center gap-2 p-1">
               <Checkbox
                 bind:checked={languageFilters.proficient}
                 class="inline "
@@ -784,7 +784,7 @@
                   : 0.5}>en/of</span
               >
             </li>
-            <li class="p-1">
+            <li class="flex items-center gap-2 p-1">
               <Checkbox
                 bind:checked={languageFilters.homeLanguage}
                 class="inline"
@@ -873,28 +873,30 @@
               .slice(0, 3)}
 
             <li class="p-2 even:bg-gray-500/10 rounded-lg">
-              <Checkbox
-                class="inline mr-1"
-                bind:checked={languageSelected[code]}
-              />
-              <span
-                class="underline cursor-pointer"
-                onclick={() => (showLangStatistics = !showLangStatistics)}
-                >{locale === "nl"
-                  ? languageNames[code].nameNL
-                  : languageNames[code].nameEN},</span
-              >
-              <span class="text-sm">
-                {count}
-                {locale === "nl"
-                  ? count > 1
-                    ? "sprekers"
-                    : "spreker"
-                  : count > 1
-                    ? "speakers"
-                    : "speaker"}
-                <b>({((count / filteredRes.length) * 100).toFixed(1)}%)</b>
-              </span>
+              <div class="flex items-center gap-1">
+                <Checkbox
+                  class="inline mr-1"
+                  bind:checked={languageSelected[code]}
+                />
+                <span
+                  class="underline cursor-pointer"
+                  onclick={() => (showLangStatistics = !showLangStatistics)}
+                  >{locale === "nl"
+                    ? languageNames[code].nameNL
+                    : languageNames[code].nameEN},</span
+                >
+                <span class="text-sm">
+                  {count}
+                  {locale === "nl"
+                    ? count > 1
+                      ? "sprekers"
+                      : "spreker"
+                    : count > 1
+                      ? "speakers"
+                      : "speaker"}
+                  <b>({((count / filteredRes.length) * 100).toFixed(1)}%)</b>
+                </span>
+              </div>
 
               {#if showLangStatistics}
                 <ul class="text-[13px] text-gray-500 mt-1 ml-4">
