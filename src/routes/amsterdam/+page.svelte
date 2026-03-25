@@ -895,14 +895,16 @@
               .slice(0, 3)}
 
             <li class="p-2 even:bg-gray-500/10 rounded-lg">
-              <div class="flex items-center gap-1">
+              <div
+                class="flex items-center gap-1"
+                onclick={(e) => toggleLangStatistics(code, e)}
+              >
                 <Checkbox
                   class="inline mr-1"
                   bind:checked={languageSelected[code]}
+                  onclick={(e) => e.stopPropagation()}
                 />
-                <span
-                  class="underline cursor-pointer"
-                  onclick={(e) => toggleLangStatistics(code, e)}
+                <span class="underline cursor-pointer"
                   >{locale === "nl"
                     ? languageNames[code].nameNL
                     : languageNames[code].nameEN},</span
