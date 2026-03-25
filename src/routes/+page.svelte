@@ -30,6 +30,11 @@
 
   let locale = $state("nl");
 
+  let isTouch = $state(false);
+  $effect(() => {
+    isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  });
+
   let stadsdelen: Stadsdeel[] = $state.raw([]);
   let locaties: Locatie[] = $state.raw([]);
   let respondents = $state.raw<Respondent[]>([]);
@@ -269,6 +274,22 @@
     ];
   }
 
+  function resetView() {
+    if (!map) return;
+
+    selectedStadsdeelId = null;
+    selectedLocatieId = null;
+    updateHighlightSource();
+
+    map.flyTo({
+      center: [4.9041, 52.3676],
+      zoom: 10,
+      pitch: 0,
+      bearing: 0,
+      essential: true,
+    });
+  }
+
   function updateHighlightSource() {
     const src = map?.getSource("stadsdelen-highlight") as
       | maplibregl.GeoJSONSource
@@ -341,7 +362,7 @@
       container: mapContainer,
       style: mode.current === "dark" ? darkStyle : lightStyle,
       center: [4.9041, 52.3676],
-      zoom: 11,
+      zoom: 10.5,
       minZoom: 9,
       attributionControl: false,
     });
@@ -512,6 +533,7 @@
     let lastHoveredLocatieId: number | null = null;
 
     map!.on("mousemove", "locatie-circles", (e) => {
+      if (isTouch) return;
       if (!e.features?.length) return;
 
       const f = e.features[0];
@@ -566,9 +588,10 @@
     });
 
     map!.on("click", (e) => {
+      const clickPadding = isTouch ? 20 : 5;
       const bbox: [maplibregl.PointLike, maplibregl.PointLike] = [
-        [e.point.x - 5, e.point.y - 5],
-        [e.point.x + 5, e.point.y + 5],
+        [e.point.x - clickPadding, e.point.y - clickPadding],
+        [e.point.x + clickPadding, e.point.y + clickPadding],
       ];
 
       const clickedLocaties = map!.queryRenderedFeatures(bbox, {
@@ -582,6 +605,7 @@
         if (id !== undefined && id !== null) {
           selectedLocatieId = Number(id);
           selectedStadsdeelId = null;
+
           updateHighlightSource();
           return;
         }
@@ -593,20 +617,20 @@
 
       if (clickedStadsdelen.length > 0) {
         const newId = clickedStadsdelen[0].id as number;
-
         if (selectedStadsdeelId === newId) {
           selectedStadsdeelId = null;
         } else {
           selectedStadsdeelId = newId;
           selectedLocatieId = null;
+          if (isTouch) hideSchoolLabel();
         }
-
         updateHighlightSource();
         return;
       }
 
       selectedLocatieId = null;
       selectedStadsdeelId = null;
+      hideSchoolLabel();
       updateHighlightSource();
     });
 
@@ -649,6 +673,7 @@
     <div
       bind:this={mapContainer}
       class="w-full h-[400px] md:h-[600px] rounded-lg"
+      style="touch-action: manipulation;"
     ></div>
     <div
       class="absolute bottom-4 left-4 bg-white dark:bg-gray-800 p-2 rounded-lg shadow-md"
@@ -708,10 +733,7 @@
       {#if selectedLocatieId || selectedStadsdeelId}
         <div
           class="underline text-xs relative -top-3 opacity-75 cursor-pointer"
-          onclick={() => {
-            selectedLocatieId = null;
-            selectedStadsdeelId = null;
-          }}
+          onclick={resetView}
         >
           &#8592; {locale === "nl"
             ? `Terug naar alle ondervraagden`
@@ -952,6 +974,13 @@
 
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Teko:wght@300..700&display=swap");
+
+  :global(.school-label),
+  :global(.stadsdeel-label),
+  :global(.school-label-permanent) {
+    pointer-events: none !important;
+    user-select: none;
+  }
 
   :global(.stadsdeel-label) {
     font-family: "Open Sans", serif;
