@@ -872,7 +872,7 @@
               .sort((a, b) => b[1] - a[1])
               .slice(0, 3)}
 
-            <li class="p-2 odd:bg-gray-500/10 rounded-lg">
+            <li class="p-2 even:bg-gray-500/10 rounded-lg">
               <Checkbox
                 class="inline mr-1"
                 bind:checked={languageSelected[code]}
