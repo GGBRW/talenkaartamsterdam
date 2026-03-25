@@ -588,7 +588,7 @@
     });
 
     map!.on("click", (e) => {
-      const clickPadding = isTouch ? 20 : 5;
+      const clickPadding = isTouch ? 10 : 5;
       const bbox: [maplibregl.PointLike, maplibregl.PointLike] = [
         [e.point.x - clickPadding, e.point.y - clickPadding],
         [e.point.x + clickPadding, e.point.y + clickPadding],
