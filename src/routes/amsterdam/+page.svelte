@@ -973,8 +973,10 @@
               <a
                 class="underline cursor-pointer"
                 onclick={() => (showAllLanguages = true)}
-                >{@html locale == "nl"
-                  ? `&darr; Alle ${sortedLangs.length} talen tonen...`
+              >
+                <span>&darr; </span>
+                {@html locale == "nl"
+                  ? `Alle ${sortedLangs.length} talen tonen...`
                   : `Show all ${sortedLangs.length} languages...`}</a
               >
             </li>
