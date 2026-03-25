@@ -647,9 +647,18 @@
 <ModeWatcher />
 
 <header
-  class="flex items-center justify-between h-16 px-6 pt-6 pb-8 border-b border-gray-300 dark:border-gray-700 overflow-visible"
+  class="flex items-center justify-between h-16 px-6 pt-8 pb-8 border-b border-gray-300 dark:border-gray-700 overflow-visible"
 >
-  <h1
+  <div class="flex items-center">
+    <img src="talenkaart_logo.svg" class="size-8 inline mr-4 dark:opacity-75" />
+    <h1 class="inline font-[800]">
+      {(locale === "nl"
+        ? "Talenkaart Amsterdam"
+        : "Language Map Amsterdam"
+      ).toUpperCase()}
+    </h1>
+  </div>
+  <!-- <h1
     class="relative top-1 inline-block text-md sm:text-xl md:text-text-lg font-bold border-2 border-purple-500/33 rounded-md px-4 py-2
   after:content-[''] after:absolute after:bottom-[-22px] after:left-6 after:w-0 after:h-0
   after:border-l-[20px] after:border-l-transparent
@@ -657,7 +666,7 @@
   after:border-r-[4px] after:border-r-transparent"
   >
     {locale === "nl" ? "Talenkaart Amsterdam" : "Language Map Amsterdam"}
-  </h1>
+  </h1> -->
 
   <div class="flex items-center gap-2">
     <LanguageToggle
@@ -682,7 +691,7 @@
         <li class="p-0.5">
           <Checkbox bind:checked={showStadsdelen} class="inline mr-2"
           ></Checkbox>
-          <span style:color="#44ff44">--</span>
+          <span style:color="#44ff44">-</span>
           {locale === "nl" ? `Stadsdelen` : `Districts`}
           ({stadsdelen.length})
         </li>
@@ -973,8 +982,7 @@
 </footer>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Teko:wght@300..700&display=swap");
-
+  @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
   :global(.school-label),
   :global(.stadsdeel-label),
   :global(.school-label-permanent) {
@@ -982,12 +990,16 @@
     user-select: none;
   }
 
+  :global(*) {
+    font-family: "Inter", serif;
+  }
+
   :global(.stadsdeel-label) {
-    font-family: "Open Sans", serif;
+    font-family: "Inter", serif;
     font-size: 14px;
     font-weight: 600;
-    color: #eeffee;
-    text-shadow: 1px 2px 0px #000;
+    color: light-dark(#004400, #eeffee);
+    text-shadow: 1px 2px 0px light-dark(#fff, #000);
     pointer-events: none;
     white-space: nowrap;
     letter-spacing: 0.04em;
