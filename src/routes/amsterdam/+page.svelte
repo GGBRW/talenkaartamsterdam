@@ -641,6 +641,7 @@
   });
 
   let openLanguage = $state(null);
+  let showAllLanguages = $state(false);
 
   $effect(() => {
     const currentLangs = sortedLangs;
@@ -887,7 +888,7 @@
           {/if}
         </div>
         <ul>
-          {#each sortedLangs as [code, o]}
+          {#each showAllLanguages ? sortedLangs : sortedLangs.slice(0, 10) as [code, o]}
             {@const count = o.count}
 
             {@const topCooc = Object.entries(cooccurrences[code] ?? {})
@@ -967,6 +968,17 @@
               {/if}
             </li>
           {/each}
+          {#if !showAllLanguages && sortedLangs.length > 10}
+            <li class="p-2 pl-8 font-[600] text-[#af71ff]">
+              <a
+                class="underline cursor-pointer"
+                onclick={() => (showAllLanguages = true)}
+                >{@html locale == "nl"
+                  ? `&darr; Alle ${sortedLangs.length} talen tonen...`
+                  : `Show all ${sortedLangs.length} languages...`}</a
+              >
+            </li>
+          {/if}
         </ul>
       {/if}
     </Card>
@@ -974,6 +986,8 @@
 </div>
 
 <footer class="bg-gray-500/10 p-6 text-center text-sm sm:text-base">
+  <img src="talenkaart_logo.svg" class="size-6 inline dark:opacity-75" />
+  <br /><br />
   <h3>
     © <b
       >{locale === "nl" ? `Talenkaart Amsterdam` : `Language Map Amsterdam`}</b
